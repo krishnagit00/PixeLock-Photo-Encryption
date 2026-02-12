@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/send_style.css' %}">
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            {% if success %}
+                <div class="card bg-dark border-secondary text-center p-5">
+                    <h3 class="text-white">Transfer Ready!</h3>
+                    <p class="text-white">Your download code: <strong class="text-warning">{{ transfer.unique_code }}</strong></p>
+                    <div class="my-4">
+                        <img src="data:image/png;base64,{{ qr_image }}" alt="QR Code" class="img-fluid rounded border border-white" style="max-width: 200px;">
+                    </div> 
+                  <!-- <div class="input-group mb-3">
+                        <input type="text" class="form-control bg-black text-white border-secondary" value="{{ download_link }}" readonly>
+                        <button class="btn btn-outline-warning" type="button">Copy</button>
+                    </div> -->
+                    <a href="{% url 'transferApp:send' %}" class="btn btn-primary mt-3">Send Another File</a>
+                </div>
+
+            {% else %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="custom-card">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h2 class="fw-bold text-white mb-1">Send Content</h2>
+                                <p class="text-white small mb-0">Your transfers are end-to-end encrypted by default.</p>
+                            </div>
+                            
+                            <div class="form-check form-switch">
+                                {{ form.use_6_digit_code }}
+                                <label class="form-check-label text-white small" for="id_use_6_digit_code">Use 6-digit code</label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex border-bottom border-secondary mb-4">
+                            <div class="px-4 py-2 border-bottom border-2 border-white text-white fw-bold">
+                                <i class="fa-solid fa-file me-2"></i> File(s)
+                            </div>
+                          <!--  <div class="px-4 py-2 text-secondary">
+                                <i class="fa-solid fa-comment me-2"></i> Text
+                            </div> -->
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="drop-zone" id="drop-area">
+                                    <label for="id_file" class="drop-zone-label">
+                                        <div class="icon-circle mb-3">
+                                            <i class="fa-solid fa-cloud-arrow-up fs-3"></i>
+                                        </div>
+                                        <h5 class="fw-bold text-white">Drag & drop your file(s) here</h5>
+                                        <p class="text-white small">or click to browse files</p>
+                                        
+                                        <p id="file-name-display" class="text-warning mt-2 small"></p>
+                                    </label>
+                                    
+                                    <div style="display: none;">
+                                        {{ form.file }}
+                                    </div>
+                                </div>
+                            </div>
+
+                           <!-- <div class="col-md-6">
+                                <div class="drop-zone dashed-secondary">
+                                    <div class="text-center">
+                                        <div class="icon-circle mb-3">
+                                            <i class="fa-solid fa-folder-plus fs-3"></i>
+                                        </div>
+                                       <h5 class="fw-bold text-white">Or Select a Folder</h5>. 
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="form-label text-secondary small">PASSWORD (OPTIONAL)</label>
+                            {{ form.password }}
+                        </div>
+
+                        <div class="mt-4 text-end">
+                            <button type="submit" class="btn btn-light fw-bold px-5">Send</button>
+                        </div>
+
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropZoneId = 'drop-area';
+        const fileInputId = 'id_file';
+        const displayId = 'file-name-display';
+
+        const dropZone = document.getElementById(dropZoneId);
+        const fileInput = document.getElementById(fileInputId);
+        const fileNameDisplay = document.getElementById(displayId);
+
+        if (!dropZone || !fileInput) return;
+
+        // --- DELETE OR REMOVE THIS SECTION ---
+        // dropZone.addEventListener('click', () => fileInput.click()); 
+        // -------------------------------------
+
+        // 2. DRAG OVER: Visual feedback
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+            dropZone.style.borderColor = '#3b82f6';
+            dropZone.style.backgroundColor = 'rgba(59, 130, 246, 0.1)';
+        });
+
+        // 3. DRAG LEAVE: Reset style
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+            dropZone.style.borderColor = '#555';
+            dropZone.style.backgroundColor = '#111';
+        });
+
+        // 4. DROP: Handle the file drop
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            
+            // Visual success feedback
+            dropZone.style.borderColor = '#4CAF50';
+            dropZone.style.backgroundColor = '#111';
+
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                updateFileName(fileInput.files[0].name);
+            }
+        });
+
+        // 5. STANDARD SELECT: Handle normal click-to-browse
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                updateFileName(fileInput.files[0].name);
+                dropZone.style.borderColor = '#4CAF50';
+            }
+        });
+
+        function updateFileName(name) {
+            if (fileNameDisplay) {
+                fileNameDisplay.innerHTML = `Selected: <span class="text-white fw-bold">${name}</span>`;
+                fileNameDisplay.classList.remove('text-warning');
+                fileNameDisplay.classList.add('text-success');
+            }
+        }
+    });
+</script>
+
+{% endblock %}

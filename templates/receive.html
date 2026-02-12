@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/receive_style.css' %}">
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5"> <div class="receive-card">
+                    
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold text-white mb-2">Receive Content</h2>
+                        <p class="text-secondary small">Enter a 6-digit code or scan a QR code to download.</p>
+                    </div>
+
+                    <form method="post" id="receive-form">
+                        {% csrf_token %}
+
+                        {% if form.errors %}
+                            <div class="alert alert-danger text-center mb-4">
+                                {{ form.errors.code_or_link|default:"Invalid Input or Code Expired" }}
+                                {{ form.errors.password }}
+                            </div>
+                        {% endif %}
+
+                        {% if password_required %}
+                            <div class="password-box p-3 mb-3 border border-warning rounded bg-dark">
+                                <div class="text-warning mb-2 text-center">
+                                    <i class="fa-solid fa-lock"></i> Password Protected
+                                </div>
+                                <input type="hidden" name="code_or_link" value="{{ form.code_or_link.value }}">
+                                
+                                {{ form.password }}
+                                
+                                <button type="submit" class="btn btn-warning w-100 mt-3 fw-bold">Unlock & Download</button>
+                            </div>
+
+                        {% else %}
+                            <div class="tab-container mb-4">
+                                <div id="tab-link" class="tab-btn active" onclick="switchMode('link')">
+                                    <i class="fa-solid fa-keyboard" ></i> Code
+                                </div>
+                                <div id="tab-qr" class="tab-btn" onclick="switchMode('qr')">
+                                    <i class="fa-solid fa-qrcode"></i> Scan QR
+                                </div>
+                            </div>
+
+                            <div id="section-link">
+                                <div class="mb-4">
+                                    {{ form.code_or_link }}
+                                </div>
+                                <button type="submit" class="btn btn-light w-100 fw-bold py-2">Receive File</button>
+                            </div>
+
+                            <div id="section-qr" style="display: none;">
+                                <div id="reader" class="qr-box mb-3"></div>
+                                <p class="text-center text-white small">Camera active. Point at a Pixelock QR code.</p>
+                                <button type="button" class="btn btn-outline-danger w-100 btn-sm" onclick="stopScanning()">Stop Camera</button>
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let html5QrcodeScanner = null;
+
+        function switchMode(mode) {
+            const linkSection = document.getElementById('section-link');
+            const qrSection = document.getElementById('section-qr');
+            const tabLink = document.getElementById('tab-link');
+            const tabQr = document.getElementById('tab-qr');
+
+            if (mode === 'link') {
+                linkSection.style.display = 'block';
+                qrSection.style.display = 'none';
+                
+                // Update Tab Styles
+                tabLink.classList.add('active');
+                tabQr.classList.remove('active');
+
+                stopScanning();
+            } else {
+                linkSection.style.display = 'none';
+                qrSection.style.display = 'block';
+
+                // Update Tab Styles
+                tabQr.classList.add('active');
+                tabLink.classList.remove('active');
+
+                startScanning();
+            }
+        }
+
+        function startScanning() {
+            if (html5QrcodeScanner === null) {
+                html5QrcodeScanner = new Html5Qrcode("reader");
+            }
+            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+            html5QrcodeScanner.start({ facingMode: "environment" }, config, onScanSuccess)
+            .catch(err => {
+                console.error("Camera Error", err);
+                alert("Could not start camera. Check permissions.");
+                switchMode('link');
+            });
+        }
+
+        function stopScanning() {
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.stop().then(() => {
+                    console.log("Scanner stopped");
+                }).catch(err => console.log(err));
+            }
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            stopScanning();
+            let code = decodedText;
+            if (decodedText.includes('/')) {
+                const parts = decodedText.split('/');
+                const cleanParts = parts.filter(part => part.length > 0);
+                code = cleanParts[cleanParts.length - 1];
+            }
+            const inputField = document.querySelector('input[name="code_or_link"]');
+            if(inputField) {
+                inputField.value = code;
+                document.getElementById('receive-form').submit();
+            }
+        }
+    </script>
+{% endblock %}

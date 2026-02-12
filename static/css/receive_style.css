@@ -1,0 +1,145 @@
+ /* Custom Dark Mode Styling to match 'Curato' reference */
+        body {
+            background-color: #0f0f0f; /* Deep dark background */
+            color: #cccccc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #0f0f0f;
+            border-bottom: 1px solid #2a2a2a;
+            padding: 1rem 1.5rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #ffffff !important;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link {
+            color: #a0a0a0 !important;
+            font-weight: 500;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #ffffff !important;
+        }
+
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0f0f0f;
+            border-top: 1px solid #2a2a2a;
+            padding: 2rem 0;
+            margin-top: auto; /* Pushes footer to bottom */
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        footer a {
+            color: #6c757d;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: #ffffff;
+        }
+
+        /* Main Content Area */
+        main {
+            min-height: 80vh; /* Ensures footer stays at bottom even if content is empty */
+            padding-top: 2rem;
+        }
+    /* receive_style.css */
+    .receive-card {
+        background: #161616;
+        border: 1px solid #2a2a2a;
+        border-radius: 12px;
+        padding: 30px;
+    }
+
+    .receive-input {
+        background-color: #000 !important;
+        border: 1px solid #444 !important;
+        color: #fff !important;
+        font-family: monospace;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+    }
+    /* Card Container */
+.custom-card {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Tabs Styling */
+.input-tabs {
+    display: flex;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+}
+
+.input-tabs span {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.input-tabs .active {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.input-tabs .inactive {
+    color: #666;
+    border-bottom: 2px solid transparent;
+}
+
+.input-tabs .inactive:hover {
+    color: #aaa;
+    background-color: #222;
+}
+
+/* Form Inputs */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    background-color: #000;
+    border: 1px solid #333;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+input:focus {
+    outline: none;
+    border-color: #666;
+}
+
+/* QR Reader Box */
+#reader {
+    width: 100%;
+    background-color: #000;
+}

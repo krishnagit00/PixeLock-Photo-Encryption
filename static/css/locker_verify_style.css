@@ -1,0 +1,100 @@
+ /* Custom Dark Mode Styling to match 'Curato' reference */
+        body {
+            background-color: #0f0f0f; /* Deep dark background */
+            color: #cccccc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #0f0f0f;
+            border-bottom: 1px solid #2a2a2a;
+            padding: 1rem 1.5rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #ffffff !important;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link {
+            color: #a0a0a0 !important;
+            font-weight: 500;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #ffffff !important;
+        }
+
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0f0f0f;
+            border-top: 1px solid #2a2a2a;
+            padding: 2rem 0;
+            margin-top: auto; /* Pushes footer to bottom */
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        footer a {
+            color: #6c757d;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: #ffffff;
+        }
+
+        /* Main Content Area */
+        main {
+            min-height: 80vh; /* Ensures footer stays at bottom even if content is empty */
+            padding-top: 2rem;
+        }
+        /* locker_verify_style.css */
+        .verify-box {
+            max-width: 400px;
+            margin: 80px auto;
+            background: #161616;
+            border: 1px solid #333;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .otp-field {
+            width: 100%;
+            height: 50px;
+            background: #000;
+            border: 1px solid #ffc107; /* Warning yellow for Locker */
+            color: #fff;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+                /* Add this to your existing locker_verify_style.css */
+        #sendOtpBtn {
+            transition: all 0.2s ease-in-out;
+            border-style: dashed; /* Visual cue that it's an action, not a final submission */
+        }
+
+        #sendOtpBtn:hover {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-style: solid;
+        }
+
+        .passkey-input:focus::placeholder {
+            color: transparent;
+        }

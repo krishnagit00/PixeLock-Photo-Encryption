@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/history_style.css' %}">
+
+    <div class="container">
+        <div class="history-card">
+            <div class="history-header">
+                <div>
+                    <h2>Transfer History</h2>
+                    <p>Your last 50 transfers on this device.</p>
+                </div>
+                <button class="btn-clear">Clear</button>
+            </div>
+
+            <div class="tabs">
+                <span class="tab active">All</span>
+                <span class="tab">Sent</span>
+                <span class="tab">Received</span>
+            </div>
+
+            <div class="history-list">
+                {% if transfer_history %}
+                    {% for item in transfer_history %}
+                        <div class="history-item">
+                            <div class="file-icon">
+                                📄
+                            </div>
+                            <div class="file-info">
+                                <span class="filename">{{ item.filename }}</span>
+                                <span class="meta">
+                                    {{ item.size|filesizeformat }} • {{ item.date }}
+                                </span>
+                            </div>
+                            <div class="transfer-type-badge">
+                                {{ item.type|title }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <p>No transfers found.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

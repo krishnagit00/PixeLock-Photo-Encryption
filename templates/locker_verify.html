@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/locker_verify_style.css' %}">
+
+<div class="verify-container">
+    <div class="verify-card">
+
+        <header class="verify-header text-center">
+            <div class="icon-circle" aria-hidden="true">
+                <i class="fa-solid fa-shield-halved text-warning"></i>
+            </div>
+            <h3 class="fw-bold mt-3">Vault Verification</h3>
+            <p class="text-secondary small">Identity and Passkey required to access storage</p>
+        </header>
+
+        <hr class="border-secondary my-4">
+
+        <form method="POST" action="{% url 'lockerApp:verify' %}">
+            {% csrf_token %}
+
+            <div class="verify-step mb-5">
+                <div class="step-label">Step 1: Identity</div>
+
+                <div class="mb-3">
+                    <label for="userEmail" class="form-label small text-secondary">EMAIL ADDRESS</label>
+                    <input type="email" class="form-control" value="{{ email }}" readonly disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="otpCode" class="form-label small text-secondary">ENTER OTP</label>
+                    <input type="text" id="otpCode" name="code" class="form-control otp-input" 
+                           placeholder="0 0 0 0 0 0" maxlength="6" inputmode="numeric" required>
+                </div>
+
+                <button type="button" class="btn btn-outline-warning btn-sm w-100">
+                    <i class="fa-solid fa-paper-plane me-2"></i> OTP Sent to Email
+                </button>
+            </div>
+
+            <div class="verify-step">
+                <div class="step-label">Step 2: Storage Access</div>
+
+                <div class="mb-3">
+                    <label for="vaultPasskey" class="form-label small text-secondary">VAULT PASSKEY</label>
+                    <input type="password" id="vaultPasskey" name="password" class="form-control passkey-input" 
+                           placeholder="Enter your secret passkey">
+                    <div class="form-text xsmall text-muted">
+                        <i class="fa-solid fa-circle-info me-1"></i>
+                        New users: This passkey will be used to initialize your storage.
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-warning w-100 fw-bold py-2 mt-2">
+                    <i class="fa-solid fa-unlock-keyhole me-2"></i> Verify & Unlock
+                </button>
+            </div>
+            
+            {% if form.errors %}
+                <div class="alert alert-danger mt-3">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/locker_verify_style.css' %}">
+
+<div class="verify-container">
+    <div class="verify-card">
+
+        <header class="verify-header text-center">
+            <div class="icon-circle" aria-hidden="true">
+                <i class="fa-solid fa-shield-halved text-warning"></i>
+            </div>
+            <h3 class="fw-bold mt-3">Vault Verification</h3>
+            <p class="text-secondary small">Identity and Passkey required to access storage</p>
+        </header>
+
+        <hr class="border-secondary my-4">
+
+        <form method="POST" action="{% url 'lockerApp:verify' %}">
+            {% csrf_token %}
+
+            <div class="verify-step mb-5">
+                <div class="step-label">Step 1: Identity</div>
+
+                <div class="mb-3">
+                    <label for="userEmail" class="form-label small text-secondary">EMAIL ADDRESS</label>
+                    <input type="email" class="form-control" value="{{ email }}" readonly disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="otpCode" class="form-label small text-secondary">ENTER OTP</label>
+                    <input type="text" id="otpCode" name="code" class="form-control otp-input" 
+                           placeholder="0 0 0 0 0 0" maxlength="6" inputmode="numeric" required>
+                </div>
+
+                <button type="button" class="btn btn-outline-warning btn-sm w-100">
+                    <i class="fa-solid fa-paper-plane me-2"></i> OTP Sent to Email
+                </button>
+            </div>
+
+            <div class="verify-step">
+                <div class="step-label">Step 2: Storage Access</div>
+
+                <div class="mb-3">
+                    <label for="vaultPasskey" class="form-label small text-secondary">VAULT PASSKEY</label>
+                    <input type="password" id="vaultPasskey" name="password" class="form-control passkey-input" 
+                           placeholder="Enter your secret passkey">
+                    <div class="form-text xsmall text-muted">
+                        <i class="fa-solid fa-circle-info me-1"></i>
+                        New users: This passkey will be used to initialize your storage.
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-warning w-100 fw-bold py-2 mt-2">
+                    <i class="fa-solid fa-unlock-keyhole me-2"></i> Verify & Unlock
+                </button>
+            </div>
+            
+            {% if form.errors %}
+                <div class="alert alert-danger mt-3">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+        </form>
+    </div>
+</div>
+{% endblock %}

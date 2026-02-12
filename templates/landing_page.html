@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pixelock - Secure Photo Encryption{% endblock %}
+
+{% block content %}
+<style>
+    /* --- CUSTOM CSS FOR LANDING PAGE --- */
+    .hero-section {
+        background-color: #0d0d0d; /* Ultra Dark Background */
+        position: relative;
+        padding: 100px 0 180px 0;
+        overflow: hidden;
+    }
+
+    /* THE MAC WINDOW FRAME */
+    .mac-window {
+        background: #1e1e1e; /* Dark Window Color */
+        border-radius: 12px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5); /* Deep Shadow */
+        border: 1px solid #333;
+        overflow: hidden;
+        position: relative;
+        transform: perspective(1000px) rotateY(-10deg) rotateX(5deg); /* The 3D Tilt */
+        transition: transform 0.5s ease;
+    }
+
+    /* The "Traffic Lights" (Red/Yellow/Green dots) */
+    .mac-window-header {
+        background: #2d2d2d;
+        padding: 12px 16px;
+        display: flex;
+        gap: 8px;
+        border-bottom: 1px solid #333;
+    }
+    
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red { background-color: #ff5f56; }
+    .dot-yellow { background-color: #ffbd2e; }
+    .dot-green { background-color: #27c93f; }
+
+    /* Hover Effect: Straighten the window */
+    .mac-window:hover {
+        transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+    }
+
+    /* SVG DIVIDER (Keep this!) */
+    .custom-shape-divider-bottom {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+        transform: rotate(180deg);
+    }
+    .custom-shape-divider-bottom svg {
+        display: block;
+        width: calc(130% + 1.3px);
+        height: 150px;
+    }
+    .custom-shape-divider-bottom .shape-fill {
+        fill: #FFFFFF;
+    }
+    
+    /* Other Styles */
+    .feature-card:hover { transform: translateY(-10px); }
+</style>
+
+<section class="hero-section text-white">
+    <div class="container position-relative z-2">
+        <div class="row align-items-center">
+            
+            <div class="col-lg-5 mb-5 mb-lg-0">
+                
+                <h1 class="display-3 fw-bold mb-4" style="letter-spacing: -2px;">
+                    Pixelock <span class="text-primary">Photo Encryption</span>
+                </h1>
+                <p class="lead text-secondary mb-5">
+                    The secure, anonymous way to encrypt and share photos. No accounts, no tracking—just pure privacy.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'lockerApp:login' %}" class="btn btn-primary btn-lg px-4 rounded-pill fw-bold">
+    <i class="fa-solid fa-lock me-2"></i> Open Locker  </a>
+                   
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="mac-window">
+                    <div class="mac-window-header">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-yellow"></span>
+                        <span class="dot dot-green"></span>
+                    </div>
+                    
+                    <img src="{% static 'images/pixelock-screen.png' %}" class="img-fluid w-100" alt="Pixelock Interface" style="opacity: 0.9;">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="custom-shape-divider-bottom">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" class="shape-fill"></path>
+        </svg>
+    </div>
+</section>
+
+<section class="py-5 bg-white" id="features">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold display-6">Start Encrypting</h2>
+            <p class="text-muted lead">Choose an action to get started immediately.</p>
+        </div>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-5 col-lg-4">
+                <div class="card h-100 shadow border-0 feature-card text-center p-4 bg-light">
+                    <div class="card-body">
+                        <div class="icon-wrapper mb-4 bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4">
+                            <i class="fa-solid fa-paper-plane fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="h4 fw-bold mb-3">Send Photos</h3>
+                        <p class="text-muted mb-4">Encrypt files locally and share via secure link.</p>
+                        <a href="{% url 'transferApp:send' %}" class="btn btn-primary w-100 rounded-pill py-2 stretched-link">
+                            Access Send
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5 col-lg-4">
+    <div class="card h-100 shadow border-0 feature-card text-center p-4 bg-white text-white">
+        <div class="card-body">
+            <div class="icon-wrapper mb-4 bg-info bg-opacity-10 rounded-circle d-inline-flex p-4">
+                <i class="fa-solid fa-download fa-3x text-info"></i>
+            </div>
+            <h3 class="h4 fw-bold mb-3">Receive Photos</h3>
+            <p class="text-secondary mb-4">Decrypt and download photos securely.</p>
+            
+            <a href="{% url 'transferApp:receive' %}" class="btn btn-info text-white w-100 rounded-pill py-2 stretched-link fw-bold">
+                Access Receive
+            </a>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</section>
+{% endblock %}

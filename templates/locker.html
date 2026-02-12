@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/locker_style.css' %}">
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+
+            {% if user_email %}
+                 <div class="card bg-dark border-secondary p-4 shadow-lg">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold text-white mb-0">My Locker</h3>
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" name="logout" class="btn btn-sm btn-outline-danger">
+                                Lock <i class="fa-solid fa-lock"></i>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="alert alert-dark border-secondary text-secondary mb-4">
+                        Logged in as: <strong class="text-white">{{ user_email }}</strong>
+                    </div>
+
+                    <form method="post" enctype="multipart/form-data" class="mb-4">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="file" name="file" class="form-control bg-black text-white border-secondary" required>
+                            <button class="btn btn-warning" type="submit">
+                                <i class="fa-solid fa-upload"></i> Upload
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr class="border-secondary">
+
+                    <div class="row g-3">
+                        {% for file in files %}
+                            <div class="col-6 col-sm-4 text-center">
+                                <a href="{% url 'lockerApp:download_file' file.id %}" target="_blank" class="text-decoration-none">
+                                    <div class="p-3 border border-secondary rounded bg-black h-100 hover-effect">
+                                        <i class="fa-solid fa-file-shield fa-2x text-primary mb-2"></i>
+                                        <p class="small text-white text-truncate mb-0">{{ file.filename }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% empty %}
+                            <div class="col-12 text-center py-4">
+                                <i class="fa-solid fa-folder-open fa-3x text-secondary mb-3"></i>
+                                <p class="text-secondary">Your locker is empty.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                 </div>
+
+            {% else %}
+                <div class="card bg-dark border-secondary p-0 overflow-hidden shadow-lg">
+                    <div class="p-4 border-bottom border-secondary bg-black bg-opacity-50 text-center">
+                        <div class="d-inline-block p-3 rounded-circle bg-dark border border-secondary mb-3">
+                             <i class="fa-solid fa-shield-halved text-warning fs-2"></i>
+                        </div>
+                        <h4 class="fw-bold text-white mb-2">Locker Access</h4>
+                        <p class="text-secondary small mb-0 px-3">
+                            Enter your email and PIN. If the locker doesn't exist, we will create one for you automatically.
+                        </p>
+                    </div>
+
+                    <div class="p-4">
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            {% if form.errors %}
+                                <div class="alert alert-danger py-2 mb-3">
+                                    <small>{{ form.errors.pin.0|default:"Invalid credentials." }}</small>
+                                </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                <label class="form-label text-secondary small fw-bold">EMAIL ADDRESS</label>
+                                {{ form.email }}
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label text-secondary small fw-bold">PIN CODE</label>
+                                {{ form.pin }}
+                                <div class="form-text text-muted xsmall mt-2">
+                                    <i class="fa-solid fa-circle-info me-1"></i> 
+                                    Used to encrypt and unlock your personal storage.
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-light w-100 fw-bold py-2 mb-2">
+                                Unlock / Create Locker
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

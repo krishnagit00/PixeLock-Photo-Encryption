@@ -1,0 +1,81 @@
+/* Card Container */
+.custom-card {
+    background-color: #1a1a1a; /* Dark Grey Background */
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+ 
+/* The Dashed Box */
+.drop-zone {
+    border: 2px dashed #555; /* The dashed line */
+    border-radius: 10px;
+    height: 250px; /* Fixed height for the box */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background-color: #111;
+}
+
+.drop-zone:hover {
+    border-color: #0d6efd; /* Bootstrap primary blue or your theme color */
+    background-color: rgba(13, 110, 253, 0.05); /* Blue tint on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+
+
+/* Make the label fill the whole box so it's clickable everywhere */
+.drop-zone-label {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Icons */
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    background-color: #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+/* Form Inputs Styling */
+input[type="password"], 
+input[type="text"] {
+    width: 100%;
+    background-color: #000;
+    border: 1px solid #333;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #666;
+}
+
+/* Toggle Switch Customization */
+.form-check-input {
+    background-color: #333;
+    border-color: #555;
+    cursor: pointer;
+}
+.form-check-input:checked {
+    background-color: #fff;
+    border-color: #fff;
+}
