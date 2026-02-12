@@ -1,4 +1,3 @@
-pip install:
 django
 cryptography
 qrcode[pil]
